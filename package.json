@@ -12,7 +12,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --fix",
-    "lint-staged": "lint-staged",
     "prepare": "husky || true",
     "spellcheck": "cspell src/**/*.{ts,tsx,css}",
     "check-types": "npx tsc --noEmit "
