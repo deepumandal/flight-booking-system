@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// authentication models 
+model Authentication {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  phone     String   @unique
+  seassion  String?  @unique
+  createAt  DateTime @default(now())
+  updateAt  DateTime @updatedAt()
+  activeOtp Int?
+}
+
+// basic Information
+model BasicInformation {
+  id                 String       @id @default(cuid())
+  email              String       @unique
+  phone              String       @unique
+  name               String
+  descriptionHeading String
+  description        String       @db.VarChar(1000)
+  socialLinks        socialLinks? @relation(fields: [socialLinksId], references: [id])
+  socialLinksId      String?
+  contactInfo        String // this will be in relation latter
+  role               Iam?         @relation(fields: [roleId], references: [id])
+  roleId             String?
+}
+
+// job roles 'Iam'
+model Iam {
+  id               String             @id @default(cuid())
+  email            String             @unique
+  phone            String             @unique
+  name             String
+  experienceTag    ExperienceTag
+  chips            IamChip[]
+  logo             Images             @relation(fields: [logoId], references: [id])
+  logoId           String
+  BasicInformation BasicInformation[]
+}
+
+model IamChip {
+  id    String @id @default(cuid())
+  label String @unique
+  Iam   Iam    @relation(fields: [iamId], references: [id])
+  iamId String
+}
+
+enum ExperienceTag {
+  Beginner
+  JuniorLevel
+  Intermediate
+  SeniorLevel
+  LeadLevel
+  ManagerLevel
+  DirectorLevel
+}
+
+// images 
+model Images {
+  id          String        @id @default(cuid())
+  name        String        @unique
+  type        ImagesType
+  Iam         Iam[]
+  socialLinks socialLinks[]
+  contactInfo contactInfo[]
+}
+
+enum ImagesType {
+  Icon
+  logo
+}
+
+// social links 
+model socialLinks {
+  id               String             @id() @default(cuid())
+  name             String             @unique
+  icon             Images             @relation(fields: [iconId], references: [id])
+  iconId           String
+  BasicInformation BasicInformation[]
+}
+
+// contact information
+model contactInfo {
+  id     String @id @default(cuid())
+  icon   Images @relation(fields: [iconId], references: [id])
+  iconId String
+}

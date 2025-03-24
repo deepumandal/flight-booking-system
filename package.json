@@ -1,0 +1,95 @@
+{
+  "name": "flight-booking-system",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=6"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --fix",
+    "lint-staged": "lint-staged",
+    "prepare": "husky || true",
+    "spellcheck": "cspell src/**/*.{ts,tsx,css}",
+    "check-types": "npx tsc --noEmit "
+  },
+  "dependencies": {
+    "@radix-ui/react-accordion": "^1.2.0",
+    "@radix-ui/react-avatar": "^1.1.0",
+    "@radix-ui/react-checkbox": "^1.1.1",
+    "@radix-ui/react-context-menu": "^2.2.1",
+    "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-dropdown-menu": "^2.1.1",
+    "@radix-ui/react-hover-card": "^1.1.1",
+    "@radix-ui/react-separator": "^1.1.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-tabs": "^1.1.0",
+    "@radix-ui/react-tooltip": "^1.1.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "dotenv": "^16.4.5",
+    "lucide-react": "^0.417.0",
+    "next": "14.2.21",
+    "prettier": "3.3.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.4.0",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@cspell/eslint-plugin": "^8.11.0",
+    "@eslint/js": "^9.23.0",
+    "@radix-ui/colors": "^3.0.0",
+    "@types/node": "^20",
+    "@types/node-cron": "^3.0.11",
+    "@types/nodemailer": "^6.4.17",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "autoprefixer": "^10.4.19",
+    "cspell": "^8.8.3",
+    "eslint": "^9.23.0",
+    "eslint-config-next": "14.2.3",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prefer-arrow-functions": "^3.3.2",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "eslint-plugin-readable-tailwind": "^1.9.1",
+    "globals": "^16.0.0",
+    "husky": "^9.1.1",
+    "lint-staged": "^15.2.5",
+    "postcss": "^8",
+    "prettier": "^3.2.5",
+    "prettier-eslint": "^16.3.0",
+    "tailwind-merge": "^2.4.0",
+    "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.27.0"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "prettier --write",
+      "pnpm lint",
+      "pnpm spellcheck"
+    ],
+    "src/**/*.css": [
+      "prettier --write",
+      "pnpm spellcheck"
+    ],
+    "./**/*.md": [
+      "prettier --write",
+      "pnpm spellcheck"
+    ]
+  }
+}
