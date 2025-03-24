@@ -27,6 +27,7 @@
       "@Svg/*": ["./src/assets/svg/*"],
       "@Mock/*": ["./src/mock/*"],
       "@Components/*": ["./src/components/*"],
+      "@Shared/*": ["./src/components/shared/*"],
       "@HOC/*": ["./src/hoc/*"],
       "@Utils/*": ["./src/utils/*"],
       "@AppTypes/*": ["./src/@types/*"]
