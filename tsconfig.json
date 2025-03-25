@@ -25,7 +25,6 @@
       "@Fonts/*": ["./src/assets/fonts/*"],
       "@Styles/*": ["./src/assets/styles/*"],
       "@Svg/*": ["./src/assets/svg/*"],
-      "@Mock/*": ["./src/mock/*"],
       "@Components/*": ["./src/components/*"],
       "@Shared/*": ["./src/components/shared/*"],
       "@HOC/*": ["./src/hoc/*"],

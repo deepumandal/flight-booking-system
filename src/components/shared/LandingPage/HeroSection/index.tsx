@@ -1,4 +1,5 @@
 import { Block, Typography } from "@Components/ui";
+import { FlightSearch } from "@Shared/LandingPage/HeroSection/FlightSearch";
 
 export const HeroSection = () => (
   <Block
@@ -18,39 +19,7 @@ export const HeroSection = () => (
         Book flights to your dream destinations
       </Typography>
 
-      {/* Flight Search Widget */}
-      <Block
-        asElement="div"
-        className="bg-white rounded-xl p-6 shadow-lg text-gray-800"
-      >
-        <form className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <input
-            className="border p-2 rounded"
-            type="text"
-            placeholder="Origin (e.g. Delhi)"
-          />
-          <input
-            className="border p-2 rounded"
-            type="text"
-            placeholder="Destination (e.g. London)"
-          />
-          <input className="border p-2 rounded" type="date" />
-          <input className="border p-2 rounded" type="date" />
-          <input
-            className="border p-2 rounded"
-            type="number"
-            placeholder="Passengers"
-          />
-          <select className="border p-2 rounded">
-            <option>Economy</option>
-            <option>Business</option>
-            <option>First Class</option>
-          </select>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white rounded py-2 md:col-span-3">
-            🔍 Search Flights
-          </button>
-        </form>
-      </Block>
+      <FlightSearch />
     </Block>
   </Block>
 );

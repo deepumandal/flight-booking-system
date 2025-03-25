@@ -12,6 +12,7 @@ appSchema.ts
 
 # next.js
 /.next/
+.env
 /out/
 
 # production
