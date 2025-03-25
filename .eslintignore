@@ -1,0 +1,15 @@
+.next
+public
+node_modules
+yarn.lock
+package-lock.json
+**/*.test.js
+.eslintrc.json
+package.json
+postcss.config.mjs
+next.config.mjs
+tailwind.config.js
+tailwind.config.ts
+pnpm-lock.yaml
+appSchema.ts
+sdk.ts

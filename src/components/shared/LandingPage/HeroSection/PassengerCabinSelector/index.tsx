@@ -12,7 +12,7 @@ import { cn } from "@Utils/ClassName";
 
 const cabinClasses = ["Economy", "Premium Economy", "Business", "First"];
 
-export const SelectClass = () => {
+export const PassengerCabinSelector = () => {
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
   const [infants, setInfants] = useState(0);

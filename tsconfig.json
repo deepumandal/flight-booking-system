@@ -29,9 +29,10 @@
       "@Shared/*": ["./src/components/shared/*"],
       "@HOC/*": ["./src/hoc/*"],
       "@Utils/*": ["./src/utils/*"],
-      "@AppTypes/*": ["./src/@types/*"]
+      "@AppTypes/*": ["./src/@types/*"],
+      "@Store/*": ["./src/Store/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../page.tsx"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "api.ts"]
 }

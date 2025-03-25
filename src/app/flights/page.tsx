@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FlightFilterForm } from "@Components/shared/FlightsPage/FilterForm";
+import { FlightBookingModal } from "@Components/shared/FlightsPage/FlightBookintModal";
 import { FlightCard } from "@Components/shared/FlightsPage/FlightCard";
 import { mockFlights } from "@Utils/Mock/flights";
 
@@ -31,6 +32,7 @@ const FlightsPage = () => {
         <h1 className="text-3xl font-bold text-blue-700 mb-6">
           Search Flights
         </h1>
+        <FlightBookingModal />
 
         <FlightFilterForm
           searchParams={searchParams}

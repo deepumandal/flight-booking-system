@@ -1,37 +1,50 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-// import { AnyType } from "@AppTypes/AnyType";
+// import { useSignup } from "@Components/hooks/useSignup";
 import { Button, Tabs } from "@Components/ui";
 import { Input } from "@Components/ui/input";
+import { authLoginPath, authSignupPath, AuthTabs } from "@Utils/auth/constants";
+import { userControllerCreate } from "src/sdk";
 
 const authSchema = z.object({
   name: z.string().min(2, "Name is required").optional(),
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
-  contact: z
+  contactNumber: z
     .string()
     .min(10, "Contact must be 10 digits")
     .max(10, "Contact must be 10 digits")
     .optional(),
 });
 
-const AuthPage = () => {
+const AuthPage = ({ params: { auth } }: Params) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: zodResolver(authSchema) });
 
+  // const { signup } = useSignup();
+
   const onLogin = (data: any) => {
     console.log("Login data:", data);
   };
 
-  const onSignup = (data: any) => {
-    console.log("Signup data:", data);
+  const onSignup = async (data: any) => {
+    console.log("Signup data:", data, errors);
+    // signup(data);
+
+    try {
+      const response = await userControllerCreate(data);
+      console.log("response ", response);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -55,13 +68,16 @@ const AuthPage = () => {
           <h2 className="text-3xl font-bold text-center text-blue-700 mb-6">
             Welcome to SkyFly
           </h2>
-          <Tabs defaultValue="login" className="w-full">
+          <Tabs defaultValue={auth} className="w-full">
             <Tabs.List className="grid grid-cols-2 mb-6 bg-blue-100">
-              <Tabs.Trigger value="login">Login</Tabs.Trigger>
-              <Tabs.Trigger value="signup">Sign Up</Tabs.Trigger>
+              {AuthTabs.map((path) => (
+                <Tabs.Trigger value={path} key={path}>
+                  {path}
+                </Tabs.Trigger>
+              ))}
             </Tabs.List>
 
-            <Tabs.Content value="login">
+            <Tabs.Content value={authLoginPath}>
               <form onSubmit={handleSubmit(onLogin)} className="space-y-5">
                 <div>
                   <Input
@@ -94,7 +110,7 @@ const AuthPage = () => {
               </form>
             </Tabs.Content>
 
-            <Tabs.Content value="signup">
+            <Tabs.Content value={authSignupPath}>
               <form onSubmit={handleSubmit(onSignup)} className="space-y-5">
                 <div>
                   <Input
@@ -135,13 +151,13 @@ const AuthPage = () => {
                 </div>
                 <div>
                   <Input
-                    {...register("contact")}
+                    {...register("contactNumber")}
                     placeholder="Contact Number"
                     className="h-12 text-base"
                   />
-                  {errors.contact && (
+                  {errors.contactNumber && (
                     <p className="text-red-500 text-sm mt-1">
-                      {errors.contact.message}
+                      {errors.contactNumber.message}
                     </p>
                   )}
                 </div>
