@@ -1,9 +1,8 @@
 export const appRoutes = {
   home: "/",
-  destinations: "#",
-  testimonials: "#",
-  login: "/auth/login",
-  signup: "/auth/signup",
+  flights: "/flights",
+  dashboard: "/dashboard",
+  auth: "/auth",
   aboutUs: "#",
   contact: "#",
   support: "#",

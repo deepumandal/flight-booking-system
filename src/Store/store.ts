@@ -5,10 +5,12 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { authReducer } from "./slices/authSlice";
+import { flightsReducer } from "./slices/flightSlice";
 
 // Static reducers
 const staticReducers = {
   auth: authReducer,
+  flight: flightsReducer,
 };
 
 // Dynamic reducers

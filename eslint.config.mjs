@@ -115,6 +115,8 @@ export default [
         },
       },
     },
+  },
+  {
     ignores: ["api.ts", "sdk.ts"],
   },
 ];

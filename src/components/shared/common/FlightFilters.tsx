@@ -1,13 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plane, Calendar, ArrowRight, MapPin } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { Calendar, ArrowRight, MapPin } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Airport } from "@AppTypes/FlightSearchTypes";
 import { useFlightService } from "@Components/hooks/useFilterFlightService";
+import { Button } from "@Components/ui";
 import { INDIAN_AIRPORTS } from "@Utils/Constants";
 import { FlightsControllerFindAllParams } from "src/sdk";
 
@@ -29,8 +29,8 @@ const formSchema = z
     }
   });
 
-export const FlightSearch: React.FC = () => {
-  const { handleFilters } = useFlightService();
+export const FlightFilters = () => {
+  const { filters, handleFilters, isFetching } = useFlightService();
   const {
     register,
     handleSubmit,
@@ -45,6 +45,7 @@ export const FlightSearch: React.FC = () => {
       destination: "",
       startDate: "",
       endDate: "",
+      ...filters,
     },
   });
 
@@ -56,7 +57,6 @@ export const FlightSearch: React.FC = () => {
   const toRef = useRef<HTMLDivElement>(null);
   const [showFromSuggestions, setShowFromSuggestions] = useState(false);
   const [showToSuggestions, setShowToSuggestions] = useState(false);
-  const router = useRouter();
 
   const filterAirports = (query: string): Airport[] => {
     const searchTerm = query.toLowerCase();
@@ -94,20 +94,9 @@ export const FlightSearch: React.FC = () => {
       endDate: data.isRoundTrip ? data.endDate : undefined,
       isRoundTrip: data.isRoundTrip,
     };
-    const searchParams = new URLSearchParams(
-      Object.entries(payload).reduce(
-        (acc, [key, value]) => {
-          if (value !== undefined) {
-            acc[key] = String(value);
-          }
-          return acc;
-        },
-        {} as Record<string, string>
-      )
-    );
 
     handleFilters(payload);
-    router.push(`/flights?${searchParams.toString()}`);
+    console.log("Submitted Payload:", payload);
   };
 
   const handleAirportSelect = (
@@ -126,11 +115,7 @@ export const FlightSearch: React.FC = () => {
   const today = new Date().toISOString().split("T")[0];
 
   return (
-    <div className="w-full max-w-3xl bg-white rounded-2xl shadow-xl p-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-        <Plane className="text-blue-600" /> Flight Search
-      </h1>
-
+    <div className="w-full bg-white rounded-2xl shadow-xl p-8">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="flex gap-4 mb-4 text-black items-start">
           <label className="flex items-center gap-2 cursor-pointer w-fit">
@@ -156,7 +141,7 @@ export const FlightSearch: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-black">
           <div className="relative" ref={fromRef}>
             <label className="block text-sm font-medium text-gray-700 mb-1 w-fit">
-              Flight From (origin)
+              From
             </label>
             <div className="relative">
               <input
@@ -198,7 +183,7 @@ export const FlightSearch: React.FC = () => {
 
           <div className="relative" ref={toRef}>
             <label className="block text-sm font-medium text-gray-700 mb-1 w-fit">
-              Flight to(destination)
+              To
             </label>
             <div className="relative">
               <input
@@ -213,7 +198,7 @@ export const FlightSearch: React.FC = () => {
                 className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
               <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-            </div>{" "}
+            </div>
             {showToSuggestions && destination && toAirports.length > 0 && (
               <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
                 {toAirports.map((airport) => (
@@ -277,12 +262,13 @@ export const FlightSearch: React.FC = () => {
           )}
         </div>
 
-        <button
+        <Button
+          loading={isFetching}
           type="submit"
-          className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 font-medium"
+          className="w-full bg-blue-600 text-white py-6 px-6 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 font-medium"
         >
           Search Flights <ArrowRight className="w-5 h-5" />
-        </button>
+        </Button>
       </form>
     </div>
   );

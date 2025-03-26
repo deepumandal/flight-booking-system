@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { CreateUserDto } from "src/sdk";
 
-interface UserInterface {
-  name: string;
-  email: string;
-  phoneNumber: string;
+export interface UserInterface extends CreateUserDto {
+  id?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface AuthStateInterface {
@@ -20,31 +21,18 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // eslint-disable-next-line no-unused-vars
-    login: (state, action: PayloadAction<number>) => {
-      state.isAuthenticated = true;
-      state.user = {
-        name: "User",
-        email: "user@example.com",
-        phoneNumber: "xxx",
-      };
-    },
     logout: (state) => {
       state.isAuthenticated = false;
       state.user = null;
     },
 
-    // eslint-disable-next-line no-unused-vars
-    updateUser: (state, action: PayloadAction<number>) => {
-      state.isAuthenticated = true;
-      state.user = {
-        name: "User",
-        email: "user@example.com",
-        phoneNumber: "xxx",
-      }; // action.payload.user
+    updateUser: (state, action: PayloadAction<UserInterface | null>) => {
+      const user = action.payload;
+      state.isAuthenticated = Boolean(user);
+      state.user = user;
     },
   },
 });
 
-export const { login, logout, updateUser } = authSlice.actions;
+export const { logout, updateUser } = authSlice.actions;
 export const authReducer = authSlice.reducer;

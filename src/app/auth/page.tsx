@@ -1,50 +1,41 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import Image from "next/image";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-// import { useSignup } from "@Components/hooks/useSignup";
+import { useAuthService } from "@Components/hooks/useAuthService";
 import { Button, Tabs } from "@Components/ui";
 import { Input } from "@Components/ui/input";
 import { authLoginPath, authSignupPath, AuthTabs } from "@Utils/auth/constants";
-import { userControllerCreate } from "src/sdk";
+import { getAuthSchema } from "./utils/get-auth-schema";
 
-const authSchema = z.object({
-  name: z.string().min(2, "Name is required").optional(),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-  contactNumber: z
-    .string()
-    .min(10, "Contact must be 10 digits")
-    .max(10, "Contact must be 10 digits")
-    .optional(),
-});
+type Mode = typeof authLoginPath | typeof authSignupPath;
 
-const AuthPage = ({ params: { auth } }: Params) => {
+const AuthPage = () => {
+  const [mode, setMode] = useState<Mode>(authLoginPath);
+
+  const schema = getAuthSchema(mode);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(authSchema) });
+  } = useForm<{
+    email: string;
+    password: string;
+    name?: string;
+    contactNumber?: string;
+  }>({ resolver: zodResolver(schema) });
 
-  // const { signup } = useSignup();
+  const { signup, login } = useAuthService();
 
   const onLogin = (data: any) => {
-    console.log("Login data:", data);
+    login(data);
   };
 
   const onSignup = async (data: any) => {
-    console.log("Signup data:", data, errors);
-    // signup(data);
-
-    try {
-      const response = await userControllerCreate(data);
-      console.log("response ", response);
-    } catch (e) {
-      console.log(e);
-    }
+    signup(data);
   };
 
   return (
@@ -68,7 +59,11 @@ const AuthPage = ({ params: { auth } }: Params) => {
           <h2 className="text-3xl font-bold text-center text-blue-700 mb-6">
             Welcome to SkyFly
           </h2>
-          <Tabs defaultValue={auth} className="w-full">
+          <Tabs
+            onValueChange={(val) => setMode(val as Mode)}
+            defaultValue={mode}
+            className="w-full"
+          >
             <Tabs.List className="grid grid-cols-2 mb-6 bg-blue-100">
               {AuthTabs.map((path) => (
                 <Tabs.Trigger value={path} key={path}>
@@ -112,18 +107,20 @@ const AuthPage = ({ params: { auth } }: Params) => {
 
             <Tabs.Content value={authSignupPath}>
               <form onSubmit={handleSubmit(onSignup)} className="space-y-5">
-                <div>
-                  <Input
-                    {...register("name")}
-                    placeholder="Full Name"
-                    className="h-12 text-base"
-                  />
-                  {errors.name && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.name.message}
-                    </p>
-                  )}
-                </div>
+                {mode == "signup" ? (
+                  <div>
+                    <Input
+                      {...register("name")}
+                      placeholder="Full Name"
+                      className="h-12 text-base"
+                    />
+                    {errors.name && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.name.message}
+                      </p>
+                    )}
+                  </div>
+                ) : null}
                 <div>
                   <Input
                     {...register("email")}
