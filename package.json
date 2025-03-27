@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "pnpm orval-generate && next build",
     "start": "next start",
     "lint": "eslint . --fix",
     "prepare": "husky || true",
