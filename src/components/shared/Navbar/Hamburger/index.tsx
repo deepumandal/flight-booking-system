@@ -10,7 +10,7 @@ import {
   SidebarTitle,
   SidebarTrigger,
 } from "@Components/ui/Sidebar";
-import { NavLinks } from "../NavLinks";
+import { Logout, NavLinks, SignupLink } from "../NavLinks";
 
 export const Hamburger = () => (
   <Block className="md:hidden">
@@ -30,14 +30,10 @@ export const Hamburger = () => (
         <div className="grid gap-4 py-2">
           <NavLinks />
         </div>
+        <Logout />
         <SidebarFooter className="mt-6">
           <SidebarClose asChild>
-            <a
-              href="#"
-              className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-2 rounded-md font-semibold"
-            >
-              Sign Up
-            </a>
+            <SignupLink className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-2 rounded-md font-semibold" />
           </SidebarClose>
         </SidebarFooter>
       </SidebarContent>

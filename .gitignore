@@ -10,10 +10,12 @@ appSchema.ts
 # testing
 /coverage
 
+api.ts
 # next.js
 /.next/
 .env
 /out/
+sdk.ts
 
 # production
 /build

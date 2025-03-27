@@ -1,6 +1,6 @@
 import { Block, Container, Flex, Typography } from "@Components/ui";
 import { Hamburger } from "@Shared/Navbar/Hamburger";
-import { NavLinks, SignupLink } from "@Shared/Navbar/NavLinks";
+import { Logout, NavLinks, SignupLink } from "@Shared/Navbar/NavLinks";
 
 export const Navbar = () => (
   <Container
@@ -21,6 +21,7 @@ export const Navbar = () => (
       <Block asElement="nav" className="space-x-6 hidden md:flex items-center">
         <NavLinks />
         <SignupLink />
+        <Logout />
       </Block>
 
       <Hamburger />
